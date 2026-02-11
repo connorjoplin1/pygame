@@ -1,6 +1,6 @@
 import pygame
 import os
-import math
+
 
 # Initialize Game
 pygame.init()
@@ -20,18 +20,21 @@ text_surface1 = font.render(f"Total Bounces: {count}", True, (255, 255, 255))
 text_rect1 = text_surface1.get_rect()
 text_rect1.topright = (500, 60)
 # TITLE Box
-text_surface2 = font1.render("MULTINACCI VS 100QUADRILLION", True, (255, 255, 255))
+text_surface2 = font1.render("MULTINACCI VS 100QUADRILLION", True,
+                             (255, 255, 255))
 text_rect2 = text_surface2.get_rect()
 one_fourth = SCREENW / 4
 text_rect2.topleft = (one_fourth - 15, 0)
 screen = pygame.display.set_mode((SCREENH, SCREENW))
-fiboball_img = pygame.image.load(os.path.join("Physics/images/multinacci.png")).convert_alpha()
+fiboball_img = pygame.image.load(os.path.join(
+    "Physics/images/multinacci.png")).convert_alpha()
 fiboball_img = pygame.transform.scale(
     fiboball_img,
     (int(fiboball_img.get_width() / 12), int(fiboball_img.get_height() / 12))
 )
 
-million_img = pygame.image.load(os.path.join("Physics/images/noFilter.webp")).convert_alpha()
+million_img = pygame.image.load(os.path.join(
+    "Physics/images/noFilter.webp")).convert_alpha()
 million_img = pygame.transform.scale(
     million_img,
     (int(million_img.get_width() / 2), int(million_img.get_height() / 2))
@@ -94,8 +97,10 @@ while running:
         screen.blit(million_img, million_rect)
     # Collision
     if million_alive and million_rect.colliderect(player_rect):
-        overlap_x = min(player_rect.right, million_rect.right) - max(player_rect.left, million_rect.left)
-        overlap_y = min(player_rect.bottom, million_rect.bottom) - max(player_rect.top, million_rect.top)
+        overlap_x = min(player_rect.right, million_rect.right)
+        - max(player_rect.left, million_rect.left)
+        overlap_y = min(player_rect.bottom, million_rect.bottom)
+        - max(player_rect.top, million_rect.top)
         if overlap_x < overlap_y:
             velocity_x_1 *= -1
             velocity_x_2 *= -1
@@ -128,8 +133,10 @@ while running:
                 million_alive = False
                 velocity_y_1 = 0
                 velocity_x_1 = 0
-    text_surface1 = font.render(f"Total Bounces: {count}", True, (255, 255, 255))
-    text_surface = font.render(f"Quadball Health: {health}", True, (255, 255, 255))
+    text_surface1 = font.render(f"Total Bounces: {count}", True,
+                                (255, 255, 255))
+    text_surface = font.render(f"Quadball Health: {health}", True,
+                               (255, 255, 255))
     screen.blit(text_surface, text_rect)
     screen.blit(text_surface1, text_rect1)
     screen.blit(text_surface2, text_rect2)
