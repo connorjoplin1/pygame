@@ -1,5 +1,6 @@
 import pygame
 import os
+import math
 
 # Initialize Game
 pygame.init()
@@ -9,8 +10,8 @@ SCREENW = 720
 font = pygame.font.Font("Physics/fonts/inter.ttf", 15)
 font1 = pygame.font.Font("Physics/fonts/bolded.ttf", 20)
 # Milliball Health Box
-health = 1000000
-text_surface = font.render(f"Milliball Health: {health}", True, (255, 255, 255))
+health = 100000000000000000
+text_surface = font.render(f"Quadball Health: {health}", True, (255, 255, 255))
 text_rect = text_surface.get_rect()
 text_rect.topleft = (85, 60)
 # Total Bounces Box
@@ -19,22 +20,21 @@ text_surface1 = font.render(f"Total Bounces: {count}", True, (255, 255, 255))
 text_rect1 = text_surface1.get_rect()
 text_rect1.topright = (500, 60)
 # TITLE Box
-text_surface2 = font1.render("FIBBONACCI VS 1MILLION", True, (255, 255, 255))
+text_surface2 = font1.render("MULTINACCI VS 100QUADRILLION", True, (255, 255, 255))
 text_rect2 = text_surface2.get_rect()
 one_fourth = SCREENW / 4
-text_rect2.topleft = (one_fourth + 20, 0)
-
+text_rect2.topleft = (one_fourth - 15, 0)
 screen = pygame.display.set_mode((SCREENH, SCREENW))
-fiboball_img = pygame.image.load(os.path.join("Physics/images/Fib.webp")).convert_alpha()
+fiboball_img = pygame.image.load(os.path.join("Physics/images/multinacci.png")).convert_alpha()
 fiboball_img = pygame.transform.scale(
     fiboball_img,
-    (int(fiboball_img.get_width() / 10), int(fiboball_img.get_height() / 10))
+    (int(fiboball_img.get_width() / 12), int(fiboball_img.get_height() / 12))
 )
 
-million_img = pygame.image.load(os.path.join("Physics/images/1milli.webp")).convert_alpha()
+million_img = pygame.image.load(os.path.join("Physics/images/noFilter.webp")).convert_alpha()
 million_img = pygame.transform.scale(
     million_img,
-    (int(million_img.get_width() / 4), int(million_img.get_height() / 4))
+    (int(million_img.get_width() / 2), int(million_img.get_height() / 2))
 )
 
 million_rect = million_img.get_rect()
@@ -43,6 +43,8 @@ million_rect.top = 80
 
 player_rect = fiboball_img.get_rect()
 player_rect.center = (100, 100)
+player_rect.top = 80
+player_rect.left = 80
 
 
 # Physics
@@ -50,7 +52,7 @@ velocity_y_1 = 3.0
 velocity_x_1 = 3.0
 velocity_x_2 = 2
 velocity_y_2 = 2
-SPEED_MULTIPLIER = 1.10
+SPEED_MULTIPLIER = 1.20
 MAX_SPEED = 30
 ground_y = SCREENH - 80
 right_x = SCREENW - 80
@@ -61,11 +63,12 @@ running = True
 million_alive = True
 
 
-def fibbonaci(n):
-    a, b = 0, 1
-    for _ in range(n):
-        a, b = b, a + b
-    return a
+def multinacci(n):
+    if (n == 1):
+        return 1
+    if (n == 2):
+        return 2
+    return multinacci(n - 1) * multinacci(n - 2)
 
 
 while running:
@@ -101,7 +104,7 @@ while running:
             velocity_x_1 = max(-MAX_SPEED, min(MAX_SPEED, velocity_x_1))
             velocity_y_1 = max(-MAX_SPEED, min(MAX_SPEED, velocity_y_1))
             count += 1
-            damage = fibbonaci(count)
+            damage = multinacci(count)
             health -= damage
             print("count:", count, "damage:", damage, "health:", health)
             if health <= 0:
@@ -117,7 +120,7 @@ while running:
             velocity_x_1 = max(-MAX_SPEED, min(MAX_SPEED, velocity_x_1))
             velocity_y_1 = max(-MAX_SPEED, min(MAX_SPEED, velocity_y_1))
             count += 1
-            damage = fibbonaci(count)
+            damage = multinacci(count)
             health -= damage
             print("count:", count, "damage:", damage, "health:", health)
             if health <= 0:
@@ -126,7 +129,7 @@ while running:
                 velocity_y_1 = 0
                 velocity_x_1 = 0
     text_surface1 = font.render(f"Total Bounces: {count}", True, (255, 255, 255))
-    text_surface = font.render(f"Milliball Health: {health}", True, (255, 255, 255))
+    text_surface = font.render(f"Quadball Health: {health}", True, (255, 255, 255))
     screen.blit(text_surface, text_rect)
     screen.blit(text_surface1, text_rect1)
     screen.blit(text_surface2, text_rect2)
